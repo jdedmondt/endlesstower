@@ -4,12 +4,12 @@
 
 #include "commands.h"
 
-void quit(char **args)
+void quit(void *null)
 {
 	/* for now do nothing */
 }
 
-void help(char **args)
+void help(void *null)
 {
 	for (int i = 0; i < N_CMDS; i++) {
 		printf("%s : %s \n", CMDS[i].string, CMDS[i].desc);

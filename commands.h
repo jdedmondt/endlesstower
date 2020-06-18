@@ -3,9 +3,9 @@
 
 /* command handler functions */
 
-void quit(char **args);
-void help(char **args);
-void info(char **args);
+void quit(void *);
+void help(void *);
+void info(char **);
 
 /* commands */
 enum {
