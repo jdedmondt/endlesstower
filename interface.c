@@ -15,10 +15,9 @@ int process_input(char *input)
 	for (i = 0; i < N_CMDS; i++) {
 		if (!strcmp(input, CMDS[i].string)) { /* see commands.h */
 			char **args = NULL;
-
-			if (CMDS[i].handler != NULL) {
-				CMDS[i].handler(args);
-			}
+			
+			CMDS[i].handler(args);
+			
 			return i;
 		}
 	}
