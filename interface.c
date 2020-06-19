@@ -6,14 +6,16 @@
 #include "commands.h"
 
 int interface_loop(void);
-int process_input(char *input);
+int process_input(char **args, int argc);
+char **tokenizer(char *string, int *argc);
+char **append_str(char *str, int n, char **list, int list_size);
 
-int process_input(char *input)
+int process_input(char **args, int argc)
 {
 	int i;
 
 	for (i = 0; i < N_CMDS; i++) {
-		if (!strcmp(input, CMDS[i].string)) { /* see commands.h */
+		if (!strcmp(args[0], CMDS[i].string)) { /* see commands.h */
 			char **args = NULL;
 			
 			CMDS[i].handler(args);
@@ -27,12 +29,82 @@ int process_input(char *input)
 	return i;
 }
 
+char **append_str(char *string, int nchars, char **list, int list_size)
+{
+	list = realloc(list, sizeof(char*)*(list_size+1));
+	list[list_size] = malloc(strlen(string));
+	strcpy(list[list_size], string);
+	list[list_size][nchars] = '\0';
+	
+	return list;
+}
+
+char **tokenizer(char *input, int *argc)
+{
+	int start_idx = 0, end_idx = 0;
+	int quotes = 0;
+	int a = 0;
+	
+	char **output = malloc(sizeof(char*));
+
+	/* strip leading, trailing whitespace */
+	for (int i = strlen(input)-1; i >= 0 && (input[i] == ' ' || input[i] == '\t'); i--) {
+		input[i] = '\0';
+	}
+		
+	int i = 0;
+	while (i < strlen(input) + 1) {
+		switch (input[i]) {
+		case '\0':
+		case ' ':
+			if (quotes) {
+				break;
+			}
+			
+			end_idx = i;
+			output = append_str(input + start_idx, end_idx-start_idx, output, a);
+			a++;
+			start_idx = end_idx + 1;
+			break;
+		case '\"':
+			if (quotes) {
+				quotes = 0;
+				end_idx = i;
+				output = append_str(input + start_idx, end_idx-start_idx, output, a);
+				a++;
+				/* TODO: figure out a way to make this work if there isn't a space after the " */
+				i++;
+				start_idx = end_idx + 2;
+				break;
+			}
+			quotes = 1;
+			start_idx = i + 1;
+			break;
+		default:
+			break;
+		}
+		i++;
+	}
+	
+	*argc = a;
+	return output;
+}
+
 int interface_loop(void)
 {
-	/* in the future we need to display current location before $ */
 	char *input = readline("$ ");
+	int argc = 0;
 
-	int result = process_input(input);
+	char **tokens = tokenizer(input, &argc);
+
+	/*
+	printf("args: %d\n", args);
+	for (int i = 0; i < args; i++) {
+		printf("%d : %s\n", i, tokens[i]);
+	}
+	*/
+	
+	int result = process_input(tokens, argc);
 
 	return result;
 }
@@ -40,6 +112,7 @@ int interface_loop(void)
 int main(void)
 {
 	int result = 1;
+
 	while (result) {
 		result = interface_loop();
 	}
