@@ -1,4 +1,4 @@
-SOURCEFILES = interface.c commands.c
+SOURCEFILES = interface.c commands.c game.c debug.c
 
 all: clean
 	gcc -o endlesstower $(SOURCEFILES) -lreadline
