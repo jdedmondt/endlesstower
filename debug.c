@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+World *world;
+
 void debug_init(void) {
+	world = G.worldspace;
 	append_room(new_room("gachi", "gasm"), world->ground_floor);
 }
 

@@ -6,6 +6,8 @@
 
 #define DEBUG_BUILD 1
 
+struct Gamestate;
+
 struct World;
 struct Floor;
 struct Room;
@@ -13,6 +15,12 @@ struct Door;
 
 
 /* object structs */
+
+struct Gamestate {
+	struct World *worldspace;
+	struct Floor *current_floor;
+	struct Room *current_room;
+};
 
 typedef struct World {
 	struct Floor *ground_floor;
@@ -46,7 +54,7 @@ typedef struct Door {
 
 /* function declarations */
 
-void init_world(void);
+void init_game(void);
 World *create_world(void);
 Floor *new_floor(char *name);
 void add_floor(Floor *floor, World *world, int dir);
@@ -56,6 +64,6 @@ Door *new_door(char *name, Room *origin, Room *dest);
 
 /* globals */
 
-World *world;
+struct Gamestate G;
 
 #endif

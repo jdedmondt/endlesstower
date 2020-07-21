@@ -107,7 +107,7 @@ int main(void)
 {
 	int result = 1;
 
-	init_world();
+	init_game();
 
 	if (DEBUG_BUILD) { debug_init(); }
 

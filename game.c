@@ -5,8 +5,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-void init_world(void) {
-	world = create_world();
+void init_game(void) {
+	G.worldspace = create_world();
+	G.current_floor = G.worldspace->ground_floor;
+	G.current_room = G.current_floor->root_room;
 }
 
 World *create_world(void) {
