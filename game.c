@@ -6,24 +6,62 @@
 #include <stdlib.h>
 
 void init_world(void) {
-	n_rooms = 0;
+	world = create_world();
 }
 
+World *create_world(void) {
+	World *new_world = malloc(sizeof(World));
+	new_world->ground_floor = new_floor("Ground Floor");
+	new_world->n_floors = 1;
+}
+
+Floor *new_floor(char *name) {
+	Floor *new_floor = malloc(sizeof(Floor));
+
+	new_floor->name = strdup(name);
+	new_floor->up = NULL;
+	new_floor->down = NULL;
+	new_floor->root_room = new_room("Lobby", "default desc");
+	new_floor->room_list = NULL;
+	new_floor->n_rooms = 0;
+	append_room(new_floor->root_room, new_floor);
+
+	return new_floor;
+}
+
+void add_floor(Floor *floor, World *world, int dir) {
+	Floor *temp = world->ground_floor;
+	if (dir == 1) {
+		while (temp->up != NULL) {
+			temp = temp->up;
+		}
+		temp->up = floor;
+		floor->down = temp;
+	} else {
+		while (temp->down != NULL) {
+			temp = temp->down;
+		}
+		temp->down = floor;
+		floor->up = temp;
+	}
+	world->n_floors++;
+}
 
 Room *new_room(char *name, char *desc) {
 	Room *new_room = malloc(sizeof(Room));
 
 	new_room->name = strdup(name);
 	new_room->desc = strdup(desc);
+	new_room->id = 0;
 
 	new_room->door_list = NULL;
 
 	return new_room;
 }
 
-void append_room(Room *room) {
-	room_list_master = realloc(room_list_master, sizeof(Room *) *(n_rooms + 1));
-	room_list_master[n_rooms++] = room;
+void append_room(Room *room, Floor *floor) {
+	floor->room_list = realloc(floor->room_list, sizeof(Room *) *(floor->n_rooms + 1));
+	floor->room_list[floor->n_rooms++] = room;
 }
 
 Door *new_door(char *name, Room *origin, Room *dest) {
