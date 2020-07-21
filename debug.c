@@ -13,11 +13,15 @@ void debug_init(void) {
 void debug_print(void) {
 	printf("rooms: \n");
 
-	for (int i = 0; i < world->ground_floor->n_rooms; i++) {
-		printf("%s\n", world->ground_floor->room_list[i]->name);
+	for (int i = 0; i < G.current_floor->n_rooms; i++) {
+		printf("%s\n", G.current_floor->room_list[i]->name);
 	}
 }
 
 void debug_add(char *name, char *desc) {
 	append_room(new_room(name, desc), world->ground_floor);
+}
+
+void debug_print_desc(void) {
+	printf("%s\n", G.current_room->desc);
 }

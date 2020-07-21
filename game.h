@@ -6,6 +6,10 @@
 
 #define DEBUG_BUILD 1
 
+#define DEFAULT_LOBBY_DESC "A large circular room made entirely of exposed concrete; the ceiling extends ad infinitum."\
+			    "\nYou see a circular elevator shaft in the center, and a call button "\
+			    "resting on a pedestal rising from the ground."
+
 struct Gamestate;
 
 struct World;

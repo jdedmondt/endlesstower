@@ -23,7 +23,7 @@ Floor *new_floor(char *name) {
 	new_floor->name = strdup(name);
 	new_floor->up = NULL;
 	new_floor->down = NULL;
-	new_floor->root_room = new_room("Lobby", "default desc");
+	new_floor->root_room = new_room("Lobby", DEFAULT_LOBBY_DESC);
 	new_floor->room_list = NULL;
 	new_floor->n_rooms = 0;
 	append_room(new_floor->root_room, new_floor);

@@ -40,4 +40,8 @@ void debug(int argc, char **argv)
 		if (argc != 4) { return; }
 		debug_add(argv[2], argv[3]);
 	}
+
+	if (!strcmp(argv[1], "d")) {
+		debug_print_desc();
+	}
 }
