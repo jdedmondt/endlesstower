@@ -29,7 +29,7 @@ static struct cmd CMDS[] = {
 	{QUIT, "quit", "exit the program ", 1, &quit},
 	{HELP, "help", "print help information", 1, &help},
 	{INFO, "info", "print environment information", 1, &info},
-	{DEBUG, "debug", "use debug functions", 2, &debug},
+	{DEBUG, "debug", "use debug functions (p, a, d, i)", 2, &debug},
 };
 
 #endif

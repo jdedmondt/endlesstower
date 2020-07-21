@@ -26,7 +26,7 @@ void info(int argc, char **argv)
 void debug(int argc, char **argv)
 {
 	if (argc < 2) {
-		printf("args bad matey\n");
+		printf("args bad matey (p, a, d)\n");
 		return;
 	}
 
@@ -38,10 +38,14 @@ void debug(int argc, char **argv)
 	if (!strcmp(argv[1], "a")) {
 		printf("adding\n\n");
 		if (argc != 4) { return; }
-		debug_add(argv[2], argv[3]);
+		debug_add_room(argv[2], argv[3]);
 	}
 
 	if (!strcmp(argv[1], "d")) {
 		debug_print_desc();
+	}
+
+	if (!strcmp(argv[1], "i")) {
+		debug_print_info();
 	}
 }

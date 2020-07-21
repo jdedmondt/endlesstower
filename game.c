@@ -21,6 +21,8 @@ Floor *new_floor(char *name) {
 	Floor *new_floor = malloc(sizeof(Floor));
 
 	new_floor->name = strdup(name);
+	new_floor->num = 0;
+
 	new_floor->up = NULL;
 	new_floor->down = NULL;
 	new_floor->root_room = new_room("Lobby", DEFAULT_LOBBY_DESC);
@@ -39,12 +41,16 @@ void add_floor(Floor *floor, World *world, int dir) {
 		}
 		temp->up = floor;
 		floor->down = temp;
+
+		floor->num = temp->num + 1;
 	} else {
 		while (temp->down != NULL) {
 			temp = temp->down;
 		}
 		temp->down = floor;
 		floor->up = temp;
+
+		floor->num = temp->num - 1;
 	}
 	world->n_floors++;
 }
@@ -57,6 +63,7 @@ Room *new_room(char *name, char *desc) {
 	new_room->id = 0;
 
 	new_room->door_list = NULL;
+	new_room->n_doors = 0;
 
 	return new_room;
 }
@@ -75,4 +82,9 @@ Door *new_door(char *name, Room *origin, Room *dest) {
 	new_door->dest = dest;
 
 	return new_door;
+}
+
+void add_door(Door *door, Room *room) {
+	room->door_list = realloc(room->door_list, sizeof(Door *) * (room->n_doors + 1));
+	room->door_list[room->n_doors++] = door;
 }

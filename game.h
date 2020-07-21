@@ -33,6 +33,7 @@ typedef struct World {
 
 typedef struct Floor {
 	char *name;
+	int num;
 
 	struct Floor *up;
 	struct Floor *down;
@@ -46,7 +47,8 @@ typedef struct Room {
 	char *desc;
 	int id;
 
-	struct Door *door_list;
+	struct Door **door_list;
+	int n_doors;
 } Room;
 
 typedef struct Door {
@@ -65,6 +67,7 @@ void add_floor(Floor *floor, World *world, int dir);
 Room *new_room(char *name, char *desc);
 void append_room(Room *room, Floor *floor);
 Door *new_door(char *name, Room *origin, Room *dest);
+void add_door(Door *door, Room *room);
 
 /* globals */
 
