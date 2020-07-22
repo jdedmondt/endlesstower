@@ -7,13 +7,17 @@ void quit(int, char **);
 void help(int, char **);
 void info(int, char **);
 void debug(int, char **);
+void look(int, char **);
+void travel(int, char **);
 
 /* commands */
 enum {
 	QUIT = 0,	/* exit the program 			*/
 	HELP,		/* print help information		*/
 	INFO, 		/* print environment information 	*/
-	DEBUG,		/* use debug functions */
+	DEBUG,		/* use debug functions 			*/
+	LOOK,		/* print current room info 		*/
+	TRAVEL,		/* go up or down a floor in valid room	*/
 	N_CMDS,
 };
 
@@ -29,7 +33,9 @@ static struct cmd CMDS[] = {
 	{QUIT, "quit", "exit the program ", 1, &quit},
 	{HELP, "help", "print help information", 1, &help},
 	{INFO, "info", "print environment information", 1, &info},
-	{DEBUG, "debug", "use debug functions (p, a, d, i)", 2, &debug},
+	{DEBUG, "debug", "[cmd] [args], use debug functions (p, a, d, i)", 2, &debug},
+	{LOOK, "look", "view current room", 1, &look},
+	{TRAVEL, "travel", "[up/down], travel between floors in a valid room", 2, &travel},
 };
 
 #endif

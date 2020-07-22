@@ -38,3 +38,8 @@ void debug_print_info(void) {
 				    G.current_room->door_list[i]->dest->name);
 	}
 }
+
+void debug_add_floor(char *name) {
+	Floor *temp = new_floor(name);
+	add_floor(temp, G.worldspace, 1);
+}
