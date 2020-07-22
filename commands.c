@@ -1,6 +1,7 @@
 /* commands.c: command handler functions */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "game.h"
@@ -73,6 +74,10 @@ void travel(int argc, char **argv) {
 		return;
 	}
 
+	if (G.current_room != G.current_floor->root_room) {
+		printf("You are not in an elevator room\n");
+	}
+
 	if (!strcmp(argv[1], "up") && G.current_floor->up != NULL) {
 		G.current_floor = G.current_floor->up;
 		G.current_room = G.current_floor->root_room;
@@ -86,4 +91,34 @@ void travel(int argc, char **argv) {
 		printf("You call the elevator and press the button for floor %d\n",
 			G.current_floor->num);
 	}
+}
+
+void go(int argc, char **argv) {
+	if (argc != 2) {
+		printf("Invalid arguments\n");
+	}
+
+	int result = atoi(argv[1]);
+
+	if (result < G.current_room->n_doors) {
+		G.current_room = G.current_room->door_list[result]->dest;
+		printf("You arrive in %s\n", G.current_room->name);
+	} else {
+		printf("Invalid door selection\n");
+	}
+}
+
+void connect(int argc, char **argv) {
+	if (argc != 3) {
+		printf("Invalid args\n");
+	}
+
+	Room *dest;
+	int room_id;
+	if ((room_id = atoi(argv[2])) < G.current_floor->n_rooms) {
+		dest = G.current_floor->room_list[room_id];
+	}
+
+	add_door(new_door(argv[1], G.current_room, dest), G.current_room);
+	printf("A new connection has been made in the current room\n");
 }

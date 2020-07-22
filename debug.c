@@ -16,7 +16,7 @@ void debug_print(void) {
 	printf("rooms: \n");
 
 	for (int i = 0; i < G.current_floor->n_rooms; i++) {
-		printf("%s\n", G.current_floor->room_list[i]->name);
+		printf("%d: %s\n", i, G.current_floor->room_list[i]->name);
 	}
 }
 
