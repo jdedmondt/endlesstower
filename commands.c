@@ -58,7 +58,8 @@ void look(int argc, char **argv) {
 
 	printf("Connections:\n");
 	for (int i = 0; i < G.current_room->n_doors; i++) {
-		printf("%d: %s\n", i, G.current_room->door_list[i]->name);
+		printf("%d: %s%s\n", i, G.current_room->door_list[i]->name,
+		       G.current_room->door_list[i]->dest->explored ? " [Visited]" : "");
 	}
 }
 
@@ -124,4 +125,17 @@ void rooms(int argc, char **argv) {
 		if ((temp = G.current_floor->room_list[i])->explored)
 			printf("%d: %s\n", i, temp->name);
 	}
+}
+
+void mroom(int argc, char **argv) {
+	if (argc != 2) {
+		printf("Invalid argument(s)\n");
+		return;
+	}
+
+	Room *temp = new_room(argv[1], "NULL");
+	append_room(temp, G.current_floor);
+	temp->explored = 1;
+
+	printf("Room (id %d) created in current floor\n", G.current_floor->n_rooms-1);
 }

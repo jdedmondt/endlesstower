@@ -11,6 +11,7 @@ void travel(int, char **);
 void go(int, char **);
 void connect(int, char **);
 void rooms(int, char **);
+void mroom(int, char **);
 
 /* commands */
 enum {
@@ -22,6 +23,7 @@ enum {
 	GO,		/* enter a door */
 	CONNECT,	/* create a door */
 	ROOMS,		/* list known rooms on floor */
+	MROOM,		/* make a new room */
 	N_CMDS,
 };
 
@@ -43,6 +45,7 @@ static struct cmd CMDS[] = {
 	{CONNECT, "connect", 
 		  "[name] [dest id], create a new connection in the current room to specified room", 3, &connect},
 	{ROOMS, "rooms", "list known rooms on current floor", 1, &rooms},
+	{MROOM, "mroom", "[name], make a new room on the current floor", 2, &mroom},
 };
 
 #endif
