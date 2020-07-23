@@ -3,7 +3,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-
 #define DEBUG_BUILD 1
 
 #define DEFAULT_LOBBY_DESC "A large circular room made entirely of exposed concrete; the ceiling extends ad infinitum."\
@@ -47,6 +46,8 @@ typedef struct Room {
 	char *desc;
 	int id;
 
+	int explored;
+
 	struct Door **door_list;
 	int n_doors;
 } Room;
@@ -66,6 +67,7 @@ Floor *new_floor(char *name);
 void add_floor(Floor *floor, World *world, int dir);
 Room *new_room(char *name, char *desc);
 void append_room(Room *room, Floor *floor);
+void goto_room(Room *room);
 Door *new_door(char *name, Room *origin, Room *dest);
 void add_door(Door *door, Room *room);
 

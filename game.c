@@ -8,7 +8,7 @@
 void init_game(void) {
 	G.worldspace = create_world();
 	G.current_floor = G.worldspace->ground_floor;
-	G.current_room = G.current_floor->root_room;
+	goto_room(G.current_floor->root_room);
 }
 
 World *create_world(void) {
@@ -62,6 +62,8 @@ Room *new_room(char *name, char *desc) {
 	new_room->desc = strdup(desc);
 	new_room->id = 0;
 
+	new_room->explored = 0;
+
 	new_room->door_list = NULL;
 	new_room->n_doors = 0;
 
@@ -71,6 +73,11 @@ Room *new_room(char *name, char *desc) {
 void append_room(Room *room, Floor *floor) {
 	floor->room_list = realloc(floor->room_list, sizeof(Room *) *(floor->n_rooms + 1));
 	floor->room_list[floor->n_rooms++] = room;
+}
+
+void goto_room(Room *room) {
+	G.current_room = room;
+	room->explored = 1;
 }
 
 Door *new_door(char *name, Room *origin, Room *dest) {

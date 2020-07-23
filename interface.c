@@ -113,6 +113,7 @@ int main(void)
 
 	while (result) {
 		result = interface_loop();
+		putchar('\n');
 	}
 	return 0;
 }

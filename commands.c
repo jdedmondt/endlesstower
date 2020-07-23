@@ -20,11 +20,6 @@ void help(int argc, char **argv)
 	}
 }
 
-void info(int argc, char **argv)
-{
-	printf("i am printing the information for the current environment.");
-}
-
 void debug(int argc, char **argv)
 {
 	if (argc < 2) {
@@ -65,7 +60,6 @@ void look(int argc, char **argv) {
 	for (int i = 0; i < G.current_room->n_doors; i++) {
 		printf("%d: %s\n", i, G.current_room->door_list[i]->name);
 	}
-	putchar('\n');
 }
 
 void travel(int argc, char **argv) {
@@ -80,14 +74,14 @@ void travel(int argc, char **argv) {
 
 	if (!strcmp(argv[1], "up") && G.current_floor->up != NULL) {
 		G.current_floor = G.current_floor->up;
-		G.current_room = G.current_floor->root_room;
+		goto_room(G.current_floor->root_room);
 		printf("You call the elevator and press the button for floor %d\n",
 		       G.current_floor->num);
 	}
 
 	if (!strcmp(argv[1], "down") && G.current_floor->down != NULL) {
 		G.current_floor = G.current_floor->down;
-		G.current_room = G.current_floor->root_room;
+		goto_room(G.current_floor->root_room);
 		printf("You call the elevator and press the button for floor %d\n",
 			G.current_floor->num);
 	}
@@ -101,7 +95,7 @@ void go(int argc, char **argv) {
 	int result = atoi(argv[1]);
 
 	if (result < G.current_room->n_doors) {
-		G.current_room = G.current_room->door_list[result]->dest;
+		goto_room(G.current_room->door_list[result]->dest);
 		printf("You arrive in %s\n", G.current_room->name);
 	} else {
 		printf("Invalid door selection\n");
@@ -121,4 +115,13 @@ void connect(int argc, char **argv) {
 
 	add_door(new_door(argv[1], G.current_room, dest), G.current_room);
 	printf("A new connection has been made in the current room\n");
+}
+
+void rooms(int argc, char **argv) {
+	printf("Known rooms:\n");
+	Room *temp;
+	for (int i = 0; i < G.current_floor->n_rooms; i++) {
+		if ((temp = G.current_floor->room_list[i])->explored)
+			printf("%d: %s\n", i, temp->name);
+	}
 }
