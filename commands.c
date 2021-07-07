@@ -106,6 +106,7 @@ void go(int argc, char **argv) {
 void connect(int argc, char **argv) {
 	if (argc != 3) {
 		printf("Invalid args\n");
+		return;
 	}
 
 	Room *dest;
