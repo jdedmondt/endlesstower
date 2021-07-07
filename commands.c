@@ -113,6 +113,9 @@ void connect(int argc, char **argv) {
 	int room_id;
 	if ((room_id = atoi(argv[2])) < G.current_floor->n_rooms) {
 		dest = G.current_floor->room_list[room_id];
+	} else {
+		printf("Invalid id\n");
+		return;
 	}
 
 	add_door(new_door(argv[1], G.current_room, dest), G.current_room);
